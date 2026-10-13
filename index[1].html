@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ShopEase — Simple online shopping</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body><div class="app">
+<div class="topline">✨ LITTLE FINDS, BIG SMILES — FREE SHIPPING ON ORDERS OVER ₹999</div>
+<header class="nav"><div class="logo">Shop<span>Ease</span>.</div><form class="search" id="searchForm"><input id="searchInput" type="search" placeholder="Search products..." aria-label="Search products"><button type="submit">Search</button></form><div class="nav-actions"><button class="icon-btn" id="cartButton">🛍️ Cart <span class="cart-count" id="cartCount">0</span></button></div></header>
+<main><section class="hero"><div class="hero-inner"><div class="hero-circle"></div><div class="hero-copy"><div class="eyebrow">Your everyday marketplace</div><h1>Good finds.<br>Great prices.</h1><p>Discover everyday essentials, cool tech, and little things that make life better.</p><button class="primary" id="shopNow">Explore products&nbsp; →</button></div><div class="hero-art" aria-hidden="true">🛍️</div></div></section>
+<section class="section"><div class="section-head"><div><h2>Shop by category</h2><div class="sub">A little something for everyone</div></div></div><div class="categories" id="categories"><button class="category" data-category="All"><div class="cat-emoji">✨</div><strong>All products</strong></button><button class="category" data-category="Electronics"><div class="cat-emoji">🎧</div><strong>Electronics</strong></button><button class="category" data-category="Fashion"><div class="cat-emoji">👟</div><strong>Fashion</strong></button><button class="category" data-category="Home"><div class="cat-emoji">🏡</div><strong>Home & Living</strong></button><button class="category" data-category="Accessories"><div class="cat-emoji">⌚</div><strong>Accessories</strong></button></div></section>
+<section class="section" id="productSection"><div class="section-head"><div><h2>Popular right now</h2><div class="sub" id="resultText">Handpicked favourites for you</div></div><div class="toolbar"><select id="sortSelect" aria-label="Sort products"><option value="featured">Sort: Featured</option><option value="low">Price: Low to high</option><option value="high">Price: High to low</option></select></div></div><div class="products" id="productGrid"></div></section></main>
+<footer class="footer">© 2026 ShopEase · Made for easy everyday shopping 💜<br><span style="display:inline-block;margin-top:7px">A beginner-friendly HTML, CSS & JavaScript demo store</span></footer><div class="toast" id="toast" role="status"></div></div>
+<script src="script.js"></script></body></html>

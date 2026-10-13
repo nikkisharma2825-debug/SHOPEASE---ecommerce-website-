@@ -1,0 +1,22 @@
+const products=[
+{id:1,name:'Wireless Headphones',category:'Electronics',price:1499,emoji:'🎧',rating:'4.8',tag:'BESTSELLER',type:'Sound & audio'},
+{id:2,name:'Everyday Sneakers',category:'Fashion',price:1899,emoji:'👟',rating:'4.7',tag:'TRENDING',type:'Comfort wear'},
+{id:3,name:'Ceramic Coffee Mug',category:'Home',price:349,emoji:'☕',rating:'4.6',tag:'JUST IN',type:'Kitchen essentials'},
+{id:4,name:'Classic Wristwatch',category:'Accessories',price:1299,emoji:'⌚',rating:'4.5',tag:'POPULAR',type:'Daily accessories'},
+{id:5,name:'Mini Bluetooth Speaker',category:'Electronics',price:999,emoji:'🔊',rating:'4.7',tag:'GREAT VALUE',type:'Sound & audio'},
+{id:6,name:'Canvas Tote Bag',category:'Fashion',price:499,emoji:'👜',rating:'4.6',tag:'ECO PICK',type:'Everyday style'},
+{id:7,name:'Desk Plant Pot',category:'Home',price:299,emoji:'🪴',rating:'4.8',tag:'FAN FAVOURITE',type:'Home decor'},
+{id:8,name:'Minimal Sunglasses',category:'Accessories',price:699,emoji:'🕶️',rating:'4.4',tag:'NEW STYLE',type:'Daily accessories'}
+];
+let selectedCategory='All';let cart=[];const grid=document.getElementById('productGrid');const searchInput=document.getElementById('searchInput');const sortSelect=document.getElementById('sortSelect');
+const money=n=>'₹'+n.toLocaleString('en-IN');
+function getVisibleProducts(){let term=searchInput.value.trim().toLowerCase();let list=products.filter(p=>(selectedCategory==='All'||p.category===selectedCategory)&&(p.name.toLowerCase().includes(term)||p.category.toLowerCase().includes(term)||p.type.toLowerCase().includes(term)));if(sortSelect.value==='low')list.sort((a,b)=>a.price-b.price);if(sortSelect.value==='high')list.sort((a,b)=>b.price-a.price);return list}
+function renderProducts(){const list=getVisibleProducts();document.getElementById('resultText').textContent=list.length?`${list.length} product${list.length===1?'':'s'} to explore`:'Try another search or category';grid.innerHTML=list.length?list.map(p=>`<article class="product"><div class="product-visual"><span class="tag">${p.tag}</span><span aria-hidden="true">${p.emoji}</span></div><div class="product-info"><div class="product-type">${p.category} · ${p.type}</div><h3>${p.name}</h3><div class="rating">★ ${p.rating} <span style="color:var(--muted)">· Customer rating</span></div><div class="price-row"><div class="price">${money(p.price)}</div><button class="add" data-add="${p.id}">+ Add</button></div></div></article>`).join(''):'<div class="empty">🔎 No products found. Try a different keyword.</div>'}
+function showToast(message){const toast=document.getElementById('toast');toast.textContent=message;toast.style.display='block';clearTimeout(showToast.timer);showToast.timer=setTimeout(()=>toast.style.display='none',2200)}
+function updateCart(){document.getElementById('cartCount').textContent=cart.reduce((sum,item)=>sum+item.qty,0)}
+grid.addEventListener('click',e=>{const button=e.target.closest('[data-add]');if(!button)return;const id=Number(button.dataset.add);const item=cart.find(p=>p.id===id);if(item)item.qty++;else cart.push({id,qty:1});updateCart();const p=products.find(p=>p.id===id);showToast(`${p.name} added to your cart! 🛍️`)});
+document.getElementById('categories').addEventListener('click',e=>{const button=e.target.closest('[data-category]');if(!button)return;selectedCategory=button.dataset.category;document.querySelectorAll('.category').forEach(c=>{c.style.borderColor=c===button?'var(--purple)':'var(--line)';c.style.background=c===button?'var(--soft)':'var(--surface)'});renderProducts();});
+document.getElementById('searchForm').addEventListener('submit',e=>{e.preventDefault();renderProducts();document.getElementById('productSection').scrollIntoView({behavior:'smooth'})});searchInput.addEventListener('input',renderProducts);sortSelect.addEventListener('change',renderProducts);
+document.getElementById('shopNow').addEventListener('click',()=>document.getElementById('productSection').scrollIntoView({behavior:'smooth'}));
+document.getElementById('cartButton').addEventListener('click',()=>{if(!cart.length){showToast('Your cart is empty — add something you love!');return}const lines=cart.map(item=>{const p=products.find(p=>p.id===item.id);return `${p.name} × ${item.qty} — ${money(p.price*item.qty)}`});const total=cart.reduce((sum,item)=>sum+products.find(p=>p.id===item.id).price*item.qty,0);alert('YOUR SHOPPING CART\n\n'+lines.join('\n')+'\n\nTotal: '+money(total)+'\n\nDemo only — checkout is not connected.');});
+renderProducts();
